@@ -22,7 +22,7 @@ Components:
         - toggle checkbox using map();
         - Delete button using filter()
 
-- - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - - - - - - - - - - - - - - - - - - - -
+- - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - - - - - - - - - - - - - - - - - - 
 
     1) Lifting state up:
 
@@ -38,5 +38,12 @@ Components:
         - The ItemList component will raise the event while the parent component, Container will handle the event. And the way we do that is through props. The ToggleBox do that.
 
         Como a função ToggleBox funciona: 
+
+
+- - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - - - - - - - - - - - - - - - - - - 
+
+Editing List items: 
+
+        
 
 

@@ -5,8 +5,7 @@ import ItemList from "./ItemList";
 const List = props => {
 
     return (
-        <>
-        {/*having the data acess through the props(prop drilling)*/}
+        
             <ul>
                 {props.data.map(item => (
                     
@@ -14,13 +13,14 @@ const List = props => {
                         key={item.id}
                         data={item}
                         ToggleBox={props.ToggleBox}
-                        deleteItem={props.deleteItem}
+                       deleteItem={props.deleteItem}
+                       editHandle={props.editHandle}
                     >
                     </ItemList>
                 
                 ))}
             </ul>
-        </>
+        
     );
 }
 

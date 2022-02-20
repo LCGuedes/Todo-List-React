@@ -1,10 +1,13 @@
 import React from "react";
-import Container from "./Components/container";
+import { GlobalStyle } from "./Styles/global";
+
+import _Container from "./Components/container";
 
 const App = () => {
     return (
         <React.StrictMode>
-            <Container />
+            <GlobalStyle />
+            <_Container />
         </React.StrictMode>
     );
 }
