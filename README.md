@@ -42,8 +42,130 @@ Components:
 
 - - - - - - - - - - - - - - - - - - - -  - - - -  - - - - - - - - - - - - - - - - - - - - - - - 
 
-Editing List items: 
+    WEB STORAGE API:
 
-        
+            Web browsers have a storage unit for every website or application where we can store data. From this storage, we can also retrieve or delete the data. Now, to have access to this storage, the browser provides for us, the Storage API mechanism that allows us to interact with the data. These mechanisms are Local Storage and Session Storage.
+
+The Session storage as the name implies allows us to store data that persists throughout the session. That is, as long as the current browser tab remains active.
+
+On the other hand, the data stored in the Local Storage has no expiration date. The data will not be erased when the browser is closed and it is shared between all windows with the same origin.
+
+Same-origin here implies – same domain (example.com); same protocol (either HTTP or HTTPS) and same port (for instance, port 80 which handles HTTP request exclusively). The URL path can be different.
+
+console -> localStorage -> prototype -> setItem:
+
+    localStorage.setItem("key", "value")
+
+    We use this method to add an item to the Storage object. This method accepts two arguments – the key name and value. We use this method to add an item to the Storage object. This method accepts two arguments – the key name and value.
+
+The storage only accepts strings for both the keys and the values. It converts other data types like the Number and Boolean to string automatically.  Most of the time, we work with a JavaScript object. In this case, use JSON to exchange this data type to/from the local storage. Use JSON.stringify() method to convert the JavaScript object to a JSON string. To retrieve the data and use in your application, you’ll need to re-convert it back to object.
+
+2) localStorage.getItem("key").
+
+    To retrieve or read data from the local storage.
+
+Exemple: 
+
+    const obj = {
+        id: 1,
+        title: "Setup development environment",
+        completed: true,
+    };
+
+    localStorage.setItem("myItem", JSON.stringify(obj));
+
+JSON.stringify(obj) converts the object to JSON string that the storage can handle.
+
+    localStorage.getItem("myItem");
+
+We’ll receive your data in the JSON format. The storage always returns a string. So we need to make use of the JSON.parse() method to parse the string and returns a JavaScript object.
+
+    JSON.parse(localStorage.getItem("myItem"));
+
+3) Removing data from local storage
+
+    There are two methods available on the localStorage object that allows us to remove item(s) from the storage. The removeItem() and clear() methods. These methods remove an item and clear the storage respectively.
+
+    localStorage.removeItem("key");
+    localStorage.clear();
+
+4) Fetching data from a remote endpoint
+
+    In our todos app, we can make all sort of HTTP request (like GET, POST or DELETE data) to and from a remote endpoint. So instead of manually adding the default to-dos items, we can request the data from the server and list them on the frontend.
+
+We can get this data from any backend, but here, we will make use of a free online REST API called JSONPlaceholder. It allows us to mimic a real live server and have a backend to work with. From there, we can get a list of fake todos items into our to-dos app.
+
+To fetch the data, we will make use of the fetch() method from the native Fetch API to perform this request and handles the responses. We can also make use of a library like Axios to do the same.
+
+useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
+            .then(response => response.json())
+            .then(data => setState({Items: data}));
+    }, []);
+
+    This is the simplest use of the fetch() method.
+
+ We already know that when the component gets rendered to the DOM, whatever is placed in the useEffect() hook gets executed. We started by making a request to the specified URL. This then returns a promise containing an HTTP response. The data here is not useful to us. So we resolved the response to JSON format where we then receive the data in the format we can work with.
+
+In the same way, you can use the fetch() method to make a post and delete request to the JSONPlaceholder or whatever backend.
+
+5) Persisting the todos data to local storage
+
+We will saving and retrieving data from the browser storage. Whenever our application mounts on the screen and the user interact with the app by inputting the to-dos data, we will save the to-dos item(s) in the local storage.
+
+However, on component mounts (i.e on page reload or on a subsequent visit), we will check if there are to-dos items present in the local storage, then, we grab them.
+
+----------------------------------------------------------------------
+
+PASSOS: 
+
+1) GET THE DATA FROM LOCAL STORAGE:
+
+We want to get the data from the local storage when the component mounts the screen.
+
+    1.1) useEffect hook:
+
+        useEffect(() => {
+        const temp = localStorage.getItem("todos")
+        const loadedTodos = JSON.parse(temp)
+
+        if (loadedTodos) {
+            setTodos(loadedTodos)
+        }
+        }, [])
+
+    1.2) componentDidMount() method:
+
+        componentDidMount() {
+        const temp = localStorage.getItem("todos")
+        const loadedTodos = JSON.parse(temp)
+        if (loadedTodos) {
+            this.setState({
+            todos: loadedTodos
+            })
+        }
+        }
+
+--------------------------------------------------------------
+
+    2) GUARDANDO DADOS NO LOCAL STORAGE
+
+    2.1) 
+
+        useEffect(() => {
+        // storing todos items
+        const temp = JSON.stringify(todos)
+        localStorage.setItem("todos", temp)
+        }, [todos])
+
+    2.2)
+
+        componentDidUpdate(prevProps, prevState) {
+        if(prevState.todos !== this.state.todos) {
+            const temp = JSON.stringify(this.state.todos)
+            localStorage.setItem("todos", temp)
+        }
+        }
+
 
 

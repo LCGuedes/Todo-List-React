@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import List from "./List";
 import InputItem from "./Input";
 import _Header from "./Header";
@@ -12,23 +12,10 @@ const state = {
 
         {
             id: uuidv4(),
-            title: "Estudar React Hooks",
-            completed: true, 
-        },
-
-        {
-            id: uuidv4(),
-            title: "Estudar Fetch API",
-            completed: false, 
-        },
-
-        {
-            id: uuidv4(),
-            title: "Estudar Storage API",
+            title: "Aprender Fetch API",
             completed: false,
         },
-
-    ]
+    ],
 }
 
 
@@ -37,6 +24,22 @@ const _Container = () => {
     const [State, setState] = useState(state);
 
     const ItemsMod = State.Items;
+
+    useEffect(() => {
+
+          const temp = localStorage.getItem("State");
+          const loadedItems = JSON.parse(temp);
+
+          if (loadedItems) {
+              setState(loadedItems);
+          }
+    }, []);
+
+    useEffect(() => {
+
+        const temp = JSON.stringify(State);
+        localStorage.setItem("State", temp);
+      }, [State])
 
     const ToggleBox = id => {
 
